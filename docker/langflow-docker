@@ -1,0 +1,10 @@
+#FROM ubuntu:latest
+FROM 3.12-alpine
+EXPOSE 7860
+
+WORKDIR /usr/local/DS
+
+COPY requirement.txt ./
+RUN pip install -r requirement.txt
+
+CMD ["langflow", "run"]
