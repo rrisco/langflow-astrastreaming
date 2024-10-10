@@ -1,0 +1,118 @@
+# from langflow.field_typing import Data
+# tag::create-client[]
+import os
+import pulsar
+import time
+from langflow.custom import Component
+from langflow.io import MessageTextInput, Output
+from langflow.schema import Data
+from dotenv import load_dotenv
+
+
+class CustomComponent(Component):
+    load_dotenv()  # take environment variables from .env
+
+    display_name = "Custom Component"
+    description = "Use as a template to create your own component."
+    documentation: str = "http://docs.langflow.org/components/custom"
+    icon = "custom_components"
+    name = "CustomComponent"
+
+    inputs = [
+        SecretStrInput(
+            name="pulsar_service_url",
+            display_name="Pulsar Service URL",
+            info="URL of Pulsar broker.",
+            advanced=False,
+            value="PULSAR_SERVICE_URL",
+        ),
+        SecretStrInput(
+            name="pulsar_token",
+            display_name="Pulsar Security Token",
+            info="Secure token for accesing Pulsar service.",
+            advanced=False,
+            value="PULSAR_TOKEN",
+        ),
+        StrInput(
+            name="tenant_name",
+            display_name="Tenant Name",
+            advanced=False,
+            info="Your tenant name must start with a lowercase alphabetic character. It can only contain lowercase alphanumeric characters, and hyphens (kebab-case).",
+        ),
+        StrInput(
+            name="namespace",
+            display_name="Namespace",
+            advanced=False,
+            info="Pulsar namespaces are logical groupings of topics.",
+        ),
+        StrInput(
+            name="topicName",
+            display_name="Topic",
+            advanced=False,
+            info="Topics provide a way to group messages matching certain criteria.",
+        ),
+        MultilineInput(
+            name="input_value",
+            display_name="Text",
+            info="JSON to be passed as message to the topic.",
+        ),
+    ]
+    
+    outputs = [
+        Output(display_name="Output", name="output", method="build_output"),
+    ]
+
+    
+
+    def build_output(self) -> str:
+        topic = "persistent://{0}/{1}/{2}".format(self.tenant_name, self.namespace, self.topicName)
+
+        client = pulsar.Client(self.pulsar_service_url, authentication=pulsar.AuthenticationToken(self.pulsar_token))
+        # end::create-client[]
+        
+        # Extract usage metadata from received string (Json) 
+        metadata = json.loads(self.input_value)
+        
+        # tag::create-producer[]
+        producer = client.create_producer(topic)
+        # end::create-producer[]
+        
+        # tag::produce-message[]
+        producer.send(metadata.encode('utf-8'))
+        # end::produce-message[]
+        
+        # tag::clean-up[]
+        client.close()
+        # end::clean-up[]
+
+        return metadata['tokens']
+    
+
+
+
+
+# tag::create-consumer[]
+consumer = client.subscribe(topic, 'my-subscription')
+# end::create-consumer[]
+
+# tag::consume-message[]
+waitingForMsg = True
+while waitingForMsg:
+    try:
+        msg = consumer.receive(2000)
+        print("Received message '{}' id='{}'".format(msg.data(), msg.message_id()))
+
+        # Acknowledging the message to remove from message backlog
+        consumer.acknowledge(msg)
+
+        waitingForMsg = False
+    except:
+        print("Still waiting for a message...");
+
+    time.sleep(1)
+# end::consume-message[]
+
+# tag::clean-up[]
+client.close()
+# end::clean-up[]
+    
