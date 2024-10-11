@@ -1,0 +1,45 @@
+# from langflow.field_typing import Data
+from langflow.custom import Component
+from langflow.io import MessageTextInput, Output
+from langflow.schema import Data
+from langflow.schema.message import Message
+import json
+
+
+class CustomComponent(Component):
+    display_name = "Pulsar Message"
+    description = "Creates a JSON message to send."
+    documentation: str = "http://docs.langflow.org/components/custom"
+    icon = "braces"
+    name = "Pulsar Message"
+
+    inputs = [
+        MultilineInput(
+            name="llm_response",
+            display_name="LLM response",
+            info="JSON to be passed as message to the topic.",
+        ),
+        MessageTextInput(
+            name="user_question", 
+            display_name="Question",
+            info="Question from the user",
+        ),
+        MessageTextInput(
+            name="user", 
+            display_name="User",
+            info="User making the question",
+        ),
+    ]
+    
+    outputs = [
+        Output(display_name="Message", name="text", method="build_output"),
+    ]
+
+    def build_output(self) -> Message:
+        metadata = json.loads(self.llm_response)
+        metadata['question'] = self.user_question
+        metadata['user'] = self.user
+        output = json.dumps(metadata)
+        self.status = output
+        return output
+

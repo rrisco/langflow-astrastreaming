@@ -2,6 +2,8 @@ import os
 import requests
 import random
 import csv
+import json
+import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,15 +22,28 @@ with open(consumers_local_path, newline='\n') as consumersfile:
 with open(api_calls_local_path, newline='\n') as questionsfile:
     questions_data = list(csv.reader(questionsfile))
 
-for x in range(number_of_requests):
+def Create_Payload() -> str:
     consumer = random.choice(consumers_data)[0]
     question = random.choice(questions_data)[0]
 
     # payload required by Langflow API
-    payload = {}
-    payload['question'] = question
+    tweaks = dict()
+    tweak_textinput = {"user_value" : consumer}
+    tweaks['TextInput-iJPg4'] = tweak_textinput
 
-    #r = requests.post(service_url+'/post', json=data)
-    # r = requests.post('https://httpbin.org/post', data=data, cookies={'foo': 'bar', 'hello': 'world'}))
-    #print(r.json())
-    #pass
+    payload = dict()
+    payload['input_value'] = question
+    payload['output_type'] = "chat"
+    payload['input_type'] = "chat"
+    payload['tweaks'] = tweaks
+    
+    output = json.dumps(payload)
+    return output
+
+
+for x in range(number_of_requests):
+    req_payload = Create_Payload()
+    
+    r = requests.post(service_url, data=req_payload)
+    print(r)
+    time.sleep(30)

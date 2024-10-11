@@ -26,7 +26,7 @@ class OpenAIModelCustomComponent(LCModelComponent):
     display_name = "OpenAI Custom"
     description = "Generates text & metadata using OpenAI LLMs."
     icon = "OpenAI"
-    name = "OpenAIModel"
+    name = "OpenAIModel Custom"
 
     inputs = LCModelComponent._base_inputs + [
         IntInput(

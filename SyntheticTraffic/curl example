@@ -1,0 +1,36 @@
+
+
+curl -X POST \
+    "http://localhost:7860/api/v1/run/0a90b0c3-7b40-4f8d-a7d0-0d7c3765e056?stream=false" \
+    -H 'Content-Type: application/json'\
+    -d '{"input_value": "que significa Sarlaft",
+    "output_type": "chat",
+    "input_type": "chat",
+    "tweaks": {
+  "ChatInput-QDPwS": {},
+  "AstraVectorStoreComponent-xa4Ma": {},
+  "ParseData-Zc3bi": {},
+  "Prompt-rZzZx": {},
+  "OpenAIEmbeddings-92YAC": {},
+  "Memory-NqEMY": {},
+  "OpenAIModel-x8x1m": {},
+  "CustomComponent-y0oxQ": {},
+  "ChatOutput-uUedJ": {},
+  "TextOutput-BxX3a": {},
+  "CustomComponent-B9oZB": {},
+  "TextInput-iJPg4": {
+    "user_value": "correo del cliente"
+  }
+}}'
+
+curl -X POST \
+    "http://localhost:7860/api/v1/run/0a90b0c3-7b40-4f8d-a7d0-0d7c3765e056?stream=false" \
+    -H 'Content-Type: application/json'\
+    -d '{"input_value": "que dice la ley antilavado de dinero",
+    "output_type": "chat",
+    "input_type": "chat",
+    "tweaks": {
+  "TextInput-iJPg4": {
+    "user_value": "infografia@gobierno.com.co"
+  }
+}}'
