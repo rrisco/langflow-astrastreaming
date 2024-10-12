@@ -43,7 +43,7 @@ def Create_Payload() -> str:
 
 for x in range(number_of_requests):
     req_payload = Create_Payload()
-    
+    print("Starting new request...")
     r = requests.post(service_url, data=req_payload)
     print(r)
-    time.sleep(30)
+    time.sleep(10)
