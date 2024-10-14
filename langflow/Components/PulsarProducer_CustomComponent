@@ -1,12 +1,9 @@
-# from langflow.field_typing import Data
-# tag::create-client[]
-import os
+
 import pulsar
-import time
 from langflow.custom import Component
 from langflow.io import MessageTextInput, Output
 from langflow.schema import Data
-from langflow.schema.message import Data
+from langflow.schema.message import Message
 from dotenv import load_dotenv
 
 
@@ -25,14 +22,12 @@ class CustomComponent(Component):
             display_name="Pulsar Service URL",
             info="URL of Pulsar broker.",
             advanced=False,
-            #value="PULSAR_SERVICE_URL",
         ),
         SecretStrInput(
             name="pulsar_token",
             display_name="Pulsar Security Token",
             info="Secure token for accesing Pulsar service.",
             advanced=False,
-            #value="PULSAR_TOKEN",
         ),
         StrInput(
             name="tenant_name",

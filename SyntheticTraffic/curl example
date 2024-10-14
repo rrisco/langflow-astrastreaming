@@ -1,26 +1,23 @@
 
-
 curl -X POST \
-    "http://localhost:7860/api/v1/run/0a90b0c3-7b40-4f8d-a7d0-0d7c3765e056?stream=false" \
+    "http://localhost:7860/api/v1/run/364b9120-06f3-49ba-8af4-87777b83d10d?stream=false" \
     -H 'Content-Type: application/json'\
-    -d '{"input_value": "que significa Sarlaft",
+    -d '{"input_value": "message",
     "output_type": "chat",
     "input_type": "chat",
     "tweaks": {
-  "ChatInput-QDPwS": {},
-  "AstraVectorStoreComponent-xa4Ma": {},
-  "ParseData-Zc3bi": {},
-  "Prompt-rZzZx": {},
-  "OpenAIEmbeddings-92YAC": {},
-  "Memory-NqEMY": {},
-  "OpenAIModel-x8x1m": {},
-  "CustomComponent-y0oxQ": {},
-  "ChatOutput-uUedJ": {},
-  "TextOutput-BxX3a": {},
-  "CustomComponent-B9oZB": {},
-  "TextInput-iJPg4": {
-    "user_value": "correo del cliente"
-  }
+  "ChatInput-azS66": {},
+  "AstraVectorStoreComponent-owRb1": {},
+  "ParseData-CYbo1": {},
+  "Prompt-RMzEB": {},
+  "OpenAIEmbeddings-aTa8O": {},
+  "Memory-G8h9c": {},
+  "CustomComponent-5ZxLf": {},
+  "CustomComponent-Ic87d": {},
+  "ChatOutput-y4wko": {},
+  "TextOutput-OqipT": {},
+  "CustomComponent-PgMWw": {},
+  "TextInput-ocdhC": {}
 }}'
 
 curl -X POST \
@@ -30,7 +27,7 @@ curl -X POST \
     "output_type": "chat",
     "input_type": "chat",
     "tweaks": {
-  "TextInput-iJPg4": {
+  "TextInput-ocdhC": {
     "user_value": "infografia@gobierno.com.co"
   }
 }}'
