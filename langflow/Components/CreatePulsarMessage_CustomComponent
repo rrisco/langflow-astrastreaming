@@ -3,6 +3,7 @@ from langflow.custom import Component
 from langflow.io import MessageTextInput, Output
 from langflow.schema import Data
 from langflow.schema.message import Message
+from datetime import datetime
 import json
 
 
@@ -29,6 +30,12 @@ class CustomComponent(Component):
             display_name="User",
             info="User making the question",
         ),
+        MessageTextInput(
+            name="session_id",
+            display_name="Session ID",
+            info="The session ID of the chat. If empty, the current session ID parameter will be used.",
+            advanced=True,
+        ),
     ]
     
     outputs = [
@@ -36,9 +43,12 @@ class CustomComponent(Component):
     ]
 
     def build_output(self) -> Message:
+        session_id = self.session_id,
         metadata = json.loads(self.llm_response)
         metadata['question'] = self.user_question
         metadata['user'] = self.user
+        metadata['timestamp'] = str(datetime.now())
+        metadata['session_id'] = session_id
         output = json.dumps(metadata)
         self.status = output
         return output

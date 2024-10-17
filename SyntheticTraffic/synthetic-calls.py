@@ -12,6 +12,7 @@ service_url = os.getenv("API_ENDPOINT")
 api_consumers_file = os.getenv("API_CONSUMERS_FILE")
 api_call_data_file = os.getenv("API_CALL_DATA_FILE")
 number_of_requests = int(os.getenv("NUMBER_OF_REQUESTS"))
+time_between_requests = int(os.getenv("WAIT_TIME"))
 
 consumers_local_path = os.getcwd() + '\\data\\' + api_consumers_file
 api_calls_local_path = os.getcwd() + '\\data\\' + api_call_data_file
@@ -29,7 +30,7 @@ def Create_Payload() -> str:
     # payload required by Langflow API
     tweaks = dict()
     tweak_textinput = {"user_value" : consumer}
-    tweaks['TextInput--ocdhC'] = tweak_textinput
+    tweaks['TextInput-ocdhC'] = tweak_textinput
 
     payload = dict()
     payload['input_value'] = question
@@ -43,7 +44,8 @@ def Create_Payload() -> str:
 
 for x in range(number_of_requests):
     req_payload = Create_Payload()
-    print("Starting new request...")
+    print("\nStarting new request...")
+    print(req_payload)
     r = requests.post(service_url, data=req_payload)
-    print(r)
-    time.sleep(10)
+    print(str(r.status_code()))
+    time.sleep(time_between_requests)
