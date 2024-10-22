@@ -163,3 +163,8 @@ cython_debug/
 /SyntheticTraffic/Scripts/*.*
 /SyntheticTraffic/Scripts/activate
 /SyntheticTraffic/.env
+/app/.streamlit/secrets.toml
+/SyntheticTraffic/etc/jupyter/nbconfig/notebook.d/pydeck.json
+/SyntheticTraffic/share/jupyter/nbextensions/pydeck/extensionRequires.js
+/SyntheticTraffic/share/jupyter/nbextensions/pydeck/index.js
+/SyntheticTraffic/share/jupyter/nbextensions/pydeck/index.js.map

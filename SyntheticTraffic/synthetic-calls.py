@@ -14,13 +14,13 @@ api_call_data_file = os.getenv("API_CALL_DATA_FILE")
 number_of_requests = int(os.getenv("NUMBER_OF_REQUESTS"))
 time_between_requests = int(os.getenv("WAIT_TIME"))
 
-consumers_local_path = os.getcwd() + '\\data\\' + api_consumers_file
-api_calls_local_path = os.getcwd() + '\\data\\' + api_call_data_file
+consumers_local_path = os.getcwd() + api_consumers_file
+api_calls_local_path = os.getcwd() + api_call_data_file
 
-with open(consumers_local_path, newline='\n') as consumersfile:
+with open(consumers_local_path, newline='\n', encoding='utf-8') as consumersfile:
     consumers_data = list(csv.reader(consumersfile))
 
-with open(api_calls_local_path, newline='\n') as questionsfile:
+with open(api_calls_local_path, newline='\n', encoding='utf-8') as questionsfile:
     questions_data = list(csv.reader(questionsfile))
 
 def Create_Payload() -> str:
@@ -38,7 +38,7 @@ def Create_Payload() -> str:
     payload['input_type'] = "chat"
     payload['tweaks'] = tweaks
     
-    output = json.dumps(payload)
+    output = json.dumps(payload, ensure_ascii=False)
     return output
 
 
@@ -46,6 +46,8 @@ for x in range(number_of_requests):
     req_payload = Create_Payload()
     print("\nStarting new request...")
     print(req_payload)
+    
     r = requests.post(service_url, data=req_payload)
-    print(str(r.status_code()))
+    print(str(r.status_code))
+    
     time.sleep(time_between_requests)

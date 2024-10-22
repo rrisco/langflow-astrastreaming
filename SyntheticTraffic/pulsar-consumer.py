@@ -41,8 +41,8 @@ while waitingForMsg:
         print("\nPOST request to: " + openSearchPutResource)
         
         headers = {'Content-Type': 'application/json'}
-        req_payload = msg.data()
-        
+        req_payload = msg.data().decode('utf-8')
+
         print("Start OpenSearch POST request...")
         r = requests.post(openSearchPutResource, data=req_payload, headers=headers)
         print("Finished posting to OpenSearch with code: " + str(r.status_code) + "\n")
