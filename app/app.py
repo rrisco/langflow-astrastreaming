@@ -1,5 +1,6 @@
 import streamlit as st
 import requests 
+import httpx
 import json
 
 from datetime import datetime
@@ -31,6 +32,8 @@ def on_make_question():
         req_payload = Create_Payload()
         st.session_state.llm_answer = ""
     if(req_payload is not "" and req_payload is not None):
+        rstream = httpx.post()
+
         r = requests.post(service_url, data=req_payload)
     if r.status_code == 200:
         response = json.loads(r.content)

@@ -168,3 +168,6 @@ cython_debug/
 /SyntheticTraffic/share/jupyter/nbextensions/pydeck/extensionRequires.js
 /SyntheticTraffic/share/jupyter/nbextensions/pydeck/index.js
 /SyntheticTraffic/share/jupyter/nbextensions/pydeck/index.js.map
+/SyntheticTraffic/example code.py
+/docker/langsmith/docker-compose.yaml
+/langflow/Flow/Vector Store RAG.json
